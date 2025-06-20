@@ -2,8 +2,19 @@
     "manifest_version": 3,
     "name": "Chess Rich Presence",
     "version": "1.0.0",
-    "description": "Discord Rich Presence for Chess.com and Lichess",
+    "description": "Discord Rich Presence for Chess.com",
     "icons": {
         "128": "images/icon.png"
-    }
+    },
+    "background": {
+        "service_worker": "src/background.js"
+    },
+    "permissions": ["tabs", "activeTab"],
+    "host_permissions": ["https://*.chess.com/*"],
+    "content_scripts": [
+        {
+            "matches": ["https://*.chess.com/*"],
+            "js": ["src/content.js"]
+        }
+    ]
 }
