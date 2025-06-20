@@ -4,14 +4,6 @@ Discord Rich Presence for [Chess.com](https://www.chess.com/) and [Lichess.org](
 
 ---
 
-## Features
-
-✅ Shows "Playing on Chess.com" or "Playing on Lichess.org" on Discord
-✅ Displays site icon (custom Rich Presence Asset)
-✅ Automatically clears presence when tab is closed or navigated away
-
----
-
 ## How It Works
 
 -   Chrome extension detects when you're using Chess.com or Lichess
