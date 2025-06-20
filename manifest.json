@@ -9,11 +9,11 @@
     "background": {
         "service_worker": "src/background.js"
     },
-    "permissions": ["tabs", "activeTab"],
-    "host_permissions": ["https://*.chess.com/*"],
+    "permissions": ["tabs", "activeTab", "storage"],
+    "host_permissions": ["https://*.chess.com/*", "https://*.lichess.org/*"],
     "content_scripts": [
         {
-            "matches": ["https://*.chess.com/*"],
+            "matches": ["https://*.chess.com/*", "https://*.lichess.org/*"],
             "js": ["src/content.js"]
         }
     ]

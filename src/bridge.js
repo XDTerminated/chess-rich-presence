@@ -14,7 +14,6 @@ const rpc = new RPC.Client({ transport: "ipc" });
 const app = express();
 
 app.use(cors());
-
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -27,16 +26,15 @@ app.use(bodyParser.json());
 const PORT = 3000;
 
 app.post("/update", async (req, res) => {
-    const { activity, site } = req.body;
+    const { activity, site, url, startTimestamp } = req.body;
 
-    console.log(`Received activity: ${activity} on ${site}`);
+    console.log(`Received activity: ${activity} on ${site}${url ? ` (${url})` : ""}`);
 
     try {
         if (activity === "CLEAR") {
             await rpc.clearActivity();
             console.log("Cleared Discord Activity.");
         } else {
-            // Determine imageKey and state text
             let imageKey = "";
             let siteName = "";
 
@@ -51,14 +49,20 @@ app.post("/update", async (req, res) => {
                 siteName = "Chess.com";
             }
 
-            await rpc.setActivity({
+            const activityPayload = {
                 details: activity,
                 state: `on ${siteName}`,
-                startTimestamp: new Date(),
+                timestamps: { start: startTimestamp }, // FIXED!
                 largeImageKey: imageKey,
                 largeImageText: `Playing on ${siteName}`,
                 instance: false,
-            });
+            };
+
+            if (url && activity === "In a Game") {
+                activityPayload.buttons = [{ label: "Watch Game", url }];
+            }
+
+            await rpc.setActivity(activityPayload);
 
             console.log("Updated Discord Activity.");
         }
